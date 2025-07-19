@@ -1,0 +1,84 @@
+<head>
+  <%- include('./partials/head') %>
+  <title>Blogs</title>
+</head>
+
+<%- include('./partials/nav') %>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <!-- Blog Card -->
+      <div class="card shadow rounded mb-4">
+        <% if (blog.coverImageURL) { %>
+          <img src="<%= blog.coverImageURL %>" class="card-img-top" alt="Cover Image"
+            style="max-height: 300px; object-fit: cover;">
+        <% } %>
+        <div class="card-body">
+          <h3 class="card-title mb-3"><%= blog.title %></h3>
+          <p class="card-text" style="white-space: pre-line;"><%= blog.content %></p>
+          <hr>
+          <!-- Author Info -->
+          <div class="d-flex align-items-center">
+            <img src="/images/default.png" class="rounded-circle me-3 border"
+              style="width: 60px; height: 60px; object-fit: cover; border: 1px solid black;">
+            <h4 class="mb-0">
+              <%= blog.createdBy?.firstName %> <%= blog.createdBy?.lastName %>
+            </h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comment Form (if logged in) -->
+      <% if (locals.user) { %>
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="mb-3">Leave a Comment</h5>
+            <form action="/blog/add-comment" method="POST">
+              <input type="hidden" name="blogId" value="<%= blog._id %>">
+              <div class="mb-3">
+                <textarea placeholder="Your Comment" class="form-control" id="content" name="content" rows="4"
+                  style="white-space: pre-wrap;" required></textarea>
+              </div>
+              <button class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      <% } else { %>
+        <div class="text-center mb-4">
+          <button class="btn btn-outline-primary" onclick="location.href='/signin'">Login to comment</button>
+        </div>
+      <% } %>
+
+      <!-- Comments Section -->
+      <div class="mb-5">
+        <% if (comments && comments.length > 0) { %>
+          <h4 class="mb-4">Comments (<%= comments.length %>)</h4>
+          <div class="row row-cols-1 g-4">
+            <% comments.forEach(comment => { %>
+              <div class="col">
+                <div style="border: 2px solid #eee; padding: 10px; border-radius: 8px;">
+                  <!-- User Info -->
+                  <div class="d-flex align-items-center mb-2" style="gap: 10px;">
+                    <img src="/images/default.png" class="rounded-circle me-2 border"
+                      style="width: 30px; height: 30px; border: 0.5px solid black;">
+                    <strong><%= comment.commentedBy.firstName %> <%= comment.commentedBy.lastName %></strong>
+                  </div>
+                  <!-- Comment Content -->
+                  <div>
+                    <pre style="white-space: pre-wrap; font-family: inherit; margin: 0;"><%= comment.content %></pre>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <p class="text-muted">No comments yet. Be the first to comment!</p>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%- include('./partials/scripts') %>

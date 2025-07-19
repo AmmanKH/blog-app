@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Sign In</title>
+    <style>
+      body {
+        background: #f8f9fa;
+      }
+    </style>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+      <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Sign In</h2>
+        <form action="/signin" method="post">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email" 
+              name="email" 
+              placeholder="Enter your email" 
+              required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="password" 
+              name="password" 
+              placeholder="Enter your password" 
+              required>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+        <div class="text-center mt-3">
+          <small>Don't have an account? <a href="/signup">Register</a></small>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/scripts') %>
+</body>
+</html>
